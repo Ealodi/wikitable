@@ -119,6 +119,7 @@ function RemakeValue(inputString) {
 function getLabelAnValue(){
   // 获取当前页面的所有属性值和属性名
   const infoBoxes = document.querySelectorAll("th.infobox-label");
+  const name_ = document.querySelector(".mw-page-title-main").textContent;
   const values = Array.from(infoBoxes).map(th => {
       const td = th.nextElementSibling;
       return RemakeValue(td ? td.textContent : "");
@@ -126,6 +127,8 @@ function getLabelAnValue(){
   const labels = Array.from(infoBoxes).map(th =>{
     return RemakeValue(th.textContent);
   });
+  values.unshift(name_);
+  labels.unshift("KeyWord_");
   return [labels,values];
 }
 function writeData(infoBoxContent){
