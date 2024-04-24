@@ -7,9 +7,10 @@ container.style.right = "10px";
 container.style.width = "40%";
 container.style.height = "100%";
 container.style.background = "steelblue";
+//container.style.cursor = "move";
 //container.style.border = "1px solid #fff";
 container.style.zIndex = "9999";
-container.style.display = "none"; // 初始时隐藏
+//container.style.display = "none"; // 初始时隐藏
 
 // 关闭
 const closeButton = document.createElement("button");
@@ -38,6 +39,15 @@ container.appendChild(detectButton);
 const detectButtonRight = document.createElement("button");
 detectButtonRight.textContent = "添加到右侧";
 container.appendChild(detectButtonRight);
+
+// 当按钮被点击时，显示或隐藏容器
+button.addEventListener("click", () => {
+  if (container.style.display === "none") {
+    container.style.display = "block";
+  } else {
+    container.style.display = "none";
+  }
+});
 
 // 当按钮被点击时，显示或隐藏容器
 button.addEventListener("click", () => {
@@ -118,17 +128,32 @@ function RemakeValue(inputString) {
 }
 function getLabelAnValue(){
   // 获取当前页面的所有属性值和属性名
-  const infoBoxes = document.querySelectorAll("th.infobox-label");
-  const name_ = document.querySelector(".mw-page-title-main").textContent;
+  const InfoboxTable = document.querySelector("table.infobox");
+  const infoBoxes = InfoboxTable.querySelectorAll("th");
+  //const name_ = document.querySelector(".mw-page-title-main").textContent;
   const values = Array.from(infoBoxes).map(th => {
       const td = th.nextElementSibling;
       return RemakeValue(td ? td.textContent : "");
-  });
-  const labels = Array.from(infoBoxes).map(th =>{
-    return RemakeValue(th.textContent);
-  });
-  values.unshift(name_);
-  labels.unshift("KeyWord_");
+  }).filter(value => value !== "");;
+  var header = "";
+  const labels = Array.from(infoBoxes).map((th,index,array) =>{
+    const label_text = RemakeValue(th.textContent);
+    // 判断是不是子属性
+    if(label_text[1] == '•' || label_text[0] == '•'){
+      return header + label_text;
+    }else{
+      if(array[index + 1]){
+        if(RemakeValue(array[index + 1].textContent)[1] == '•' || RemakeValue(array[index + 1].textContent)[0] == '•'){
+          header = label_text;
+          return null;
+        }
+      }
+    }
+    return label_text;
+  }).filter(label => label !== null);
+  labels.splice(0,1);
+  //values.unshift(name_);
+  //labels.unshift("KeyWord_");
   return [labels,values];
 }
 function writeData(infoBoxContent){
@@ -140,6 +165,7 @@ function writeData(infoBoxContent){
     // 清空 tbody 中的所有子元素（即表格行）
     tbody.innerHTML = '';
   }
+  infoBoxContent.sort(sortByNonEmptyValues);
   infoBoxContent.forEach(item => {
       var row = table.insertRow();
       item.forEach(function(cellData) {
@@ -148,6 +174,9 @@ function writeData(infoBoxContent){
           cell.style.color = "#fff";
           cell.style.border = '1px solid #ddd'; // 设置单元格边框
           cell.style.padding = '8px'; // 设置单元格内边距
+          // cell.style.textOverflow = 'ellipsis';
+          // cell.style.overflow = 'hidden';
+          cell.style.wordWrap = 'break-word';
           cell.style.minWidth = "80px";
           cell.style.maxWidth = "80px";
       });
@@ -175,17 +204,25 @@ function mergeArrays(array1, array2) {
   // 遍历第一个数组，合并数据
   const mergedArray = array1.map(([value, name]) => {
     // 如果第二个数组中存在当前名称
-    if (nameToValueMap.hasOwnProperty(name)) {
-      // 将第二个数组中的值加入到当前二级数组的末尾
-      return [value, name, nameToValueMap[name]];
-    } else {
-      // 否则在当前二级数组的末尾填充空值
-      return [value, name, '']; // 或者使用 null、undefined 等表示空值的标记
+    if(value == null)return ['',name,''];
+    for(var i = 0;i < array2.length;i++){
+      //console.log(array2[i][1] + name + " " + getSimilarity(name,array2[i][1]));
+      if(!array2[i][1])continue;
+      if(getSimilarity(name,array2[i][1]) >= 80){
+        const vlkw = array2[i][0];
+        array2.splice(i,1);
+        return [value, name, vlkw];
+      }
+
     }
+    // 否则在当前二级数组的末尾填充空值
+    return [value, name, '']; // 或者使用 null、undefined 等表示空值的标记
+    
   });
 
   // 如果第二个数组中存在但在第一个数组中不存在的名称
   array2.forEach(([value, name]) => {
+
     if (!mergedArray.some(item => item[1] === name)) {
       // 在第一个数组的末尾添加一个新的二级数组
       mergedArray.push(['', name, value]);
@@ -194,3 +231,39 @@ function mergeArrays(array1, array2) {
 
   return mergedArray;
 }
+// 比较函数，将不包含空字符串的数组排在前面
+function sortByNonEmptyValues(a, b) {
+  const nonEmptyA = a.filter(item => item !== "").length;
+  const nonEmptyB = b.filter(item => item !== "").length;
+  return nonEmptyB - nonEmptyA; // 降序排列，将不包含空字符串的数组排在前面
+}
+// 字符串相似度比较
+function getSimilarity(str1,str2) {
+  let sameNum = 0
+  //寻找相同字符
+  for (let i = 0; i < str1.length; i++) {
+      for(let j =0;j<str2.length;j++){
+          if(str1[i]===str2[j]){
+              sameNum ++ 
+              break
+          }
+      }
+  }
+  // console.log(str1,str2);
+  // console.log("相似度",(sameNum/str1.length) * 100);
+  //判断2个字符串哪个长度比较长
+  let length = str1.length > str2.length ? str1.length : str2.length
+  return (sameNum/length) * 100 || 0
+}
+
+// 关闭按钮的点击事件处理程序
+closeButton.addEventListener("click", () => {
+  // 隐藏容器
+  container.style.display = "none";
+});
+
+// 显示按钮的点击事件处理程序
+button.addEventListener("click", () => {
+  // 将容器的样式设置为显示
+  container.style.display = "block";
+});
