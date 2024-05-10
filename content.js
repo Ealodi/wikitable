@@ -221,12 +221,46 @@ function writeData(infoBoxContent){
   //infoBoxContent.sort(sortByNonEmptyValues);
   infoBoxContent.forEach(item => {
       var row = table.insertRow();
-      item.forEach(function(cellData) {
+      item.forEach(function(cellData,index) {
           var cell = row.insertCell();
-          cell.textContent = cellData;
-          cell.style.color = "black";
+          // 创建一个包含内容的容器div
+          var div = document.createElement("div");
+          div.textContent = cellData;
+          
+          if(index == 0 || index == 2){
+            var intdata = extractNumbersFromString(cellData);
+            var intdata2 = extractNumbersFromString(item[2-index]);
+            if(intdata == '')intdata = cellData;
+            var widthBL;
+            if(intdata != '' && intdata2 != '')widthBL = intdata / (intdata + intdata2) * 100;
+            else widthBL = '100%';
+            // 设置容器的圆角样式
+            div.style.width = widthBL + '%';
+            div.style.color = "white";
+            div.style.backgroundColor = 'steelblue';
+            //div.style.border = '1px solid #ddd'; // 设置单元格边框
+            //div.style.padding = '5px'; // 设置单元格内边距
+            //div.style.wordWrap = 'break-word';
+            div.style.borderRadius = "5px"; // 设置圆角半径为5px
+            //div.style.padding = "5px"; // 可选：添加内边距以改善样式
+          }else{
+            div.style.width = '100%';
+            div.style.color = "black";
+            //div.style.boxShadow = "5px 0px 10px rgba(0, 0, 0, 0.5), -5px 0px 10px rgba(0, 0, 0, 0.5)";
+            div.style.borderLeft = "1px solid rgba(0, 0, 0, 0.5)"; // 左侧边框
+            div.style.borderRight = "1px solid rgba(0, 0, 0, 0.5)"; // 右侧边框
+          }
+          //div.style.minHeight = '40px';
+          
+          // 清空单元格内容
+          cell.textContent = "";
+          // 将容器插入到单元格中
+          cell.appendChild(div);
+
+          //cell.textContent = cellData;
+          //cell.style.color = "black";
           //cell.style.border = '1px solid #ddd'; // 设置单元格边框
-          cell.style.padding = '8px'; // 设置单元格内边距
+          //cell.style.padding = '5px'; // 设置单元格内边距
           // cell.style.textOverflow = 'ellipsis';
           // cell.style.overflow = 'hidden';
           cell.style.wordWrap = 'break-word';

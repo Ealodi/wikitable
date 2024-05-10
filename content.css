@@ -71,6 +71,3 @@
     border-collapse: collapse;
     border-spacing: 0; /* 添加这一行以确保在某些浏览器中的一致性 */
 }
-.DataTable td, .DataTable th {
-    border: 1px solid transparent;
-}
