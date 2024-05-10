@@ -1,11 +1,76 @@
 .VisContainer{
-    border: 1px solid #ddd;
+    display: flex!important;
     position: fixed;
     top: 10px;
     right: 10px;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    /* margin: 10px; */
     width: 40%;
-    height: 98%;
-    background-color: white;
+    height: 98vh;
+    background-color: #ffffff;
     z-index: 9999;
-    display: none;
+    visibility: hidden;
+}
+.topContainer {
+    display: flex;
+    flex: 10%;
+    flex-direction: row;
+    justify-content: space-between;
+    border-left: 10px solid transparent;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+.midContainer {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    flex: 5%;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+.botContainer {
+    flex: 60%;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 5%;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    display: flex;
+}
+.leftBlock {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    color: #02D2C5;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+.rightBlock {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    color: #40B1F1;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+.startButton {
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+}
+.DataTable {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0; /* 添加这一行以确保在某些浏览器中的一致性 */
+}
+.DataTable td, .DataTable th {
+    border: 1px solid transparent;
 }
