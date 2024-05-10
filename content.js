@@ -1,17 +1,18 @@
 // content.js
 // 创建容器元素
 const container = document.createElement("div");
-container.style.border = "1px solid #ddd"; // g添加一个灰色实线边框
-container.style.position = "fixed";
-container.style.top = "10px";
-container.style.right = "10px";
-container.style.width = "40%";
-container.style.height = "100%";
-container.style.background = "white";
-//container.style.cursor = "move";
-//container.style.border = "1px solid #fff";
-container.style.zIndex = "9999";
-container.style.display = "none"; // 初始时隐藏
+container.classList.add("VisContainer");
+// container.style.border = "1px solid #ddd"; // g添加一个灰色实线边框
+// container.style.position = "fixed";
+// container.style.top = "10px";
+// container.style.right = "10px";
+// container.style.width = "40%";
+// container.style.height = "100%";
+// container.style.background = "white";
+// //container.style.cursor = "move";
+// //container.style.border = "1px solid #fff";
+// container.style.zIndex = "9999";
+// container.style.display = "none"; // 初始时隐藏
 
 // 关闭
 const closeButton = document.createElement("button");
@@ -240,27 +241,30 @@ chrome.storage.sync.get(['rightValue'], function(result) {
 });
 // 按下添加按钮 左
 detectButton.addEventListener("click",() => {
-  const lbAnValues = getLabelAnValue();
-  chrome.storage.sync.set({ 'leftValue': lbAnValues }, function() {
-    lastLeftValue = lbAnValues;
+  lastLeftValue = getLabelAnValue();
+  chrome.storage.sync.set({ 'leftValue': lastLeftValue }, function() {
     console.log('leftData is saved.');
-    console.log(lbAnValues);
+    console.log(lastLeftValue);
   });
   
-  writeData(mergeArrays(lbAnValues,lastRightValue));
+  const mergedata = mergeArrays(lastLeftValue,lastRightValue);
+  console.log("mergedata:");
+  console.log(mergedata);
+  writeData(mergedata);
 });
 // 按下添加按钮 右
 detectButtonRight.addEventListener("click",() => {
-  const lbAnValues = getLabelAnValue();
+  lastRightValue = getLabelAnValue();
   //console.log(lbAnValues);
 
-  chrome.storage.sync.set({ 'rightValue': lbAnValues }, function() {
-    lastRightValue = lbAnValues;
+  chrome.storage.sync.set({ 'rightValue': lastRightValue }, function() {
     console.log('rightData is saved.');
-    console.log(lbAnValues);
+    console.log(lastRightValue);
   });
-  
-  writeData(mergeArrays(lastLeftValue,lbAnValues));
+  const mergedata = mergeArrays(lastLeftValue,lastRightValue);
+  console.log("mergedata:");
+  console.log(mergedata);
+  writeData(mergedata);
 });
 
 function RemakeValue(inputString) {
@@ -280,8 +284,10 @@ function getLabelAnValue(){
   const tbodyChildren = infobox.querySelector('tbody');
   // 获取tbody下的第一个tr元素
   var Tr = tbodyChildren.querySelector('tr');
-  
+  // 获取关键词
+  const name_ = document.querySelector(".mw-page-title-main").textContent;
   const valueLabelsBox = [];
+  valueLabelsBox.push([name_,'keyword_'])
   var toprow = "";
   while(Tr){
     const th = Tr.querySelector('th');
@@ -299,7 +305,7 @@ function getLabelAnValue(){
     }
     Tr = Tr.nextElementSibling;
   }
-  console.log(valueLabelsBox);
+  //console.log(valueLabelsBox);
   return valueLabelsBox;
 }
 
@@ -341,10 +347,10 @@ function mergeArrays(array1, array2) {
   }
   if (array2 == ''){
     const mergedArray = array1.map(([value, name]) => {
-      return [name, value , ''];
+      return [value ,name, ''];
     });
     return mergedArray;
-  }
+  } 
   const mergedArray = [];
   // 遍历第一个数组，合并数据
   array1.forEach(([value, name]) => {
@@ -404,4 +410,3 @@ button.addEventListener("click", () => {
   // 将容器的样式设置为显示
   container.style.display = "block";
 });
-

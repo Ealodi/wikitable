@@ -10,7 +10,8 @@
     "content_scripts": [
       {
         "matches": ["https://en.wikipedia.org/*"],
-        "js": ["content.js","d3.v5.min.js","popup.js"]
+        "js": ["content.js","d3.v5.min.js","popup.js"],
+        "css": ["content.css"]
       }
     ],
     "action": {
