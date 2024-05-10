@@ -2,17 +2,6 @@
 // 创建容器元素
 const container = document.createElement("div");
 container.classList.add("VisContainer");
-// container.style.border = "1px solid #ddd"; // g添加一个灰色实线边框
-// container.style.position = "fixed";
-// container.style.top = "10px";
-// container.style.right = "10px";
-// container.style.width = "40%";
-// container.style.height = "100%";
-// container.style.background = "white";
-// //container.style.cursor = "move";
-// //container.style.border = "1px solid #fff";
-// container.style.zIndex = "9999";
-// container.style.display = "none"; // 初始时隐藏
 
 // 关闭
 const closeButton = document.createElement("button");
@@ -110,6 +99,9 @@ const detectButtonRight = document.createElement("button");
 detectButtonRight.textContent = "添加到右侧";
 container.appendChild(detectButtonRight);
 
+
+var lastLeftValue = '';
+var lastRightValue = '';
 // 清空列表
 const clearButton = document.createElement("button");
 clearButton.textContent = "清空";
@@ -117,12 +109,9 @@ container.appendChild(clearButton);
 
 clearButton.addEventListener("click", () => {
   chrome.storage.sync.clear();
-  const tbody = table.querySelector('tbody');
-  // 如果存在 tbody 元素
-  if (tbody) {
-    // 清空 tbody 中的所有子元素（即表格行）
-    tbody.innerHTML = '';
-  }
+  clearTableLag();
+  lastLeftValue = '';
+  lastRightValue = '';
 });
 // 当按钮被点击时，显示或隐藏容器
 button.addEventListener("click", () => {
@@ -132,35 +121,6 @@ button.addEventListener("click", () => {
     container.style.display = "none";
   }
 });
-
-// 141-168 g创建 MutationObserver 实例，用来更新上面的空地的内容
-const observer = new MutationObserver(mutationsList => {
-  mutationsList.forEach(mutation => {
-    // 当发生变化时，检查容器元素的显示状态并进行相应的操作
-    if (container.style.display === "none") {
-      container.style.display = "block";
-    }
-
-    // 更新 block 中的内容
-    chrome.storage.sync.get(['leftValue'], function(result) {
-      if(result.leftValue){
-        lastLeftValue = result.leftValue;
-        // 更新 block1 中的内容
-        block1.textContent = result.leftValue[0][0];
-      }
-    });
-    chrome.storage.sync.get(['rightValue'], function(result) {
-      if(result.rightValue){
-        lastRightValue = result.rightValue;
-        // 更新 block3 中的内容
-        block3.textContent = result.rightValue[0][0];
-      }
-    });
-  });
-});
-
-// 监听 DOM 树的变化
-//observer.observe(document.body, { subtree: true, childList: true });
 
 // 当按钮被点击时，显示或隐藏容器
 button.addEventListener("click", () => {
@@ -184,7 +144,7 @@ leftTextI.style.display = "flex";
 const table = document.createElement('table');
 table.style.width = "100%";
 table.style.height = "100%";
-table.style.borderCollapse = 'collapse';
+//table.style.borderCollapse = 'collapse';
 leftTextI.appendChild(table);
 
 container.appendChild(leftTextI);
@@ -192,53 +152,22 @@ container.appendChild(leftTextI);
 
 
 
-function fillPageTitle() {
-  // 196--214 g添加查询页面中的 span.mw-page-title-main 元素功能
-  const pageTitleElement = document.querySelector("span.mw-page-title");
-  if (pageTitleElement) {
-    const pageTitle = pageTitleElement.textContent;
-    // 将页面标题填充到表格中
-    const tbody = table.querySelector('tbody');
-    if (tbody) {
-      // 清空 tbody 中的所有子元素（即表格行）
-      tbody.innerHTML = '';
-      // 创建新行并添加页面标题
-      const row = table.insertRow();
-      const cell = row.insertCell();
-      cell.textContent = "Page Title:";
-      cell.style.fontWeight = "bold";
-      const titleCell = row.insertCell();
-      titleCell.textContent = pageTitle;
-    }
-  }
-}
-
-var lastLeftValue = '';
-var lastRightValue = '';
-
 // 从存储中获取数据
 chrome.storage.sync.get(['leftValue'], function(result) {
   // 如果存储中有数据，将其应用于页面
-  if(result.leftValue){
-    lastLeftValue = result.leftValue;
-    console.log(lastLeftValue);
-    writeData(mergeArrays(result.leftValue,lastRightValue));
-
-
- // g将左侧第一行数据传递到 block1 中
- block1.textContent = result.leftValue[0][0];
-
-  }
+  if(result.leftValue)lastLeftValue = result.leftValue;
+  const mergedata = mergeArrays(lastLeftValue,lastRightValue);
+  writeData(mergedata);
+  updateTitle(mergedata);
 });
 chrome.storage.sync.get(['rightValue'], function(result) {
-  if(result.rightValue){
-    lastRightValue = result.rightValue;
-    console.log(lastRightValue);
-    writeData(mergeArrays(lastLeftValue,result.rightValue));
-    // g将右侧第一行数据传递到 block3 中
-    block3.textContent = result.rightValue[0][0];
-  }
+  if(result.rightValue)lastRightValue = result.rightValue;
+  const mergedata = mergeArrays(lastLeftValue,lastRightValue);
+  writeData(mergedata);
+  updateTitle(mergedata);
 });
+
+
 // 按下添加按钮 左
 detectButton.addEventListener("click",() => {
   lastLeftValue = getLabelAnValue();
@@ -251,12 +180,12 @@ detectButton.addEventListener("click",() => {
   console.log("mergedata:");
   console.log(mergedata);
   writeData(mergedata);
+  updateTitle(mergedata);
 });
 // 按下添加按钮 右
 detectButtonRight.addEventListener("click",() => {
   lastRightValue = getLabelAnValue();
   //console.log(lbAnValues);
-
   chrome.storage.sync.set({ 'rightValue': lastRightValue }, function() {
     console.log('rightData is saved.');
     console.log(lastRightValue);
@@ -265,6 +194,7 @@ detectButtonRight.addEventListener("click",() => {
   console.log("mergedata:");
   console.log(mergedata);
   writeData(mergedata);
+  updateTitle(mergedata);
 });
 
 function RemakeValue(inputString) {
@@ -275,7 +205,6 @@ function RemakeValue(inputString) {
   
   return withoutCSSRules;
 }
-
 function getLabelAnValue(){
   // 获取当前页面的所有属性值和属性名
   // 选择具有特定类名的元素
@@ -308,9 +237,8 @@ function getLabelAnValue(){
   //console.log(valueLabelsBox);
   return valueLabelsBox;
 }
-
-function writeData(infoBoxContent){
-  // 将数据写入表格展示
+function clearTableLag(){
+  // 清空已有的表格内容
   // 获取表格的 tbody 元素
   const tbody = table.querySelector('tbody');
   // 如果存在 tbody 元素
@@ -318,9 +246,14 @@ function writeData(infoBoxContent){
     // 清空 tbody 中的所有子元素（即表格行）
     tbody.innerHTML = '';
   }
+  block1.textContent = "";
+  block2.textContent = "";
+}
+function writeData(infoBoxContent){
+  // 将数据写入表格展示
+  clearTableLag();
   // 排序
   //infoBoxContent.sort(sortByNonEmptyValues);
-
   infoBoxContent.forEach(item => {
       var row = table.insertRow();
       item.forEach(function(cellData) {
@@ -337,8 +270,14 @@ function writeData(infoBoxContent){
       });
   });
 }
+function updateTitle(mergedata){
+  // 更新标题
+  block1.textContent = mergedata[0][0];
+  block3.textContent = mergedata[0][2];
+}
 function mergeArrays(array1, array2) {
   // 创建一个映射表，将第二个数组的名称映射到其对应的值
+  if (array1 == '' && array2 == '')return null;
   if(array1 == ''){
     const mergedArray = array2.map(([value, name]) => {
       return ['', name, value];
@@ -398,13 +337,31 @@ function getSimilarity(str1,str2) {
   let length = str1.length > str2.length ? str1.length : str2.length
   return (sameNum/length) * 100 || 0
 }
-
+function fillPageTitle() {
+  // 196--214 g添加查询页面中的 span.mw-page-title-main 元素功能
+  const pageTitleElement = document.querySelector("span.mw-page-title");
+  if (pageTitleElement) {
+    const pageTitle = pageTitleElement.textContent;
+    // 将页面标题填充到表格中
+    const tbody = table.querySelector('tbody');
+    if (tbody) {
+      // 清空 tbody 中的所有子元素（即表格行）
+      tbody.innerHTML = '';
+      // 创建新行并添加页面标题
+      const row = table.insertRow();
+      const cell = row.insertCell();
+      cell.textContent = "Page Title:";
+      cell.style.fontWeight = "bold";
+      const titleCell = row.insertCell();
+      titleCell.textContent = pageTitle;
+    }
+  }
+}
 // 关闭按钮的点击事件处理程序
 closeButton.addEventListener("click", () => {
   // 隐藏容器
   container.style.display = "none";
 });
-
 // 显示按钮的点击事件处理程序
 button.addEventListener("click", () => {
   // 将容器的样式设置为显示
