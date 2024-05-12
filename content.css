@@ -35,7 +35,7 @@
     flex: 60%;
     margin-left: 8px;
     margin-right: 8px;
-    margin-bottom: 5%;
+    margin-bottom: 10px;
     overflow-y: auto;
     border: 1px solid #ccc;
     display: flex;
@@ -70,4 +70,52 @@
     height: 100%;
     border-collapse: collapse;
     border-spacing: 0; /* 添加这一行以确保在某些浏览器中的一致性 */
+}
+.closeButton {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: -41px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid black;
+    border-right: none;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+.buttonContainer {
+    display: flex;
+    align-items: center;
+}
+.leftAddButton {
+    position: relative;
+    left: 15%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid grey;
+    cursor: pointer;
+}
+.rightAddButton {
+    position: relative;
+    left: 70%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid grey;
+    cursor: pointer;
+}
+.clearButton {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    left: -5%;
+    cursor: pointer;
 }

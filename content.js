@@ -1,3 +1,4 @@
+
 // content.js
 // 创建容器元素
 const container = document.createElement("div");
@@ -15,15 +16,37 @@ containerBot.classList.add("botContainer");
 container.appendChild(containerTop);
 container.appendChild(containerMid);
 container.appendChild(containerBot);
-// 关闭
+
+
+// //关闭（老版本）
+// const closeButton = document.createElement("button");
+// closeButton.textContent = "CLOSE";
+// closeButton.addEventListener("click", () => {
+//   container.style.display = "none";
+// });
+
+// containerMid.appendChild(closeButton);
+
+// 关闭（2.0版本）display--none
 const closeButton = document.createElement("button");
-closeButton.textContent = "关闭";
+closeButton.classList.add("closeButton");
+// 设置按钮文本内容为 × 表示关闭
+closeButton.innerHTML = `
+  <svg t="1715251940085" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="40" height="40" stroke="none">
+    <path d="M872.802928 755.99406 872.864326 755.99406 872.864326 755.624646Z" fill="#272536"></path>
+    <path d="M927.846568 511.997953c0-229.315756-186.567139-415.839917-415.838893-415.839917-229.329059 0-415.85322 186.524161-415.85322 415.839917 0 229.300406 186.524161 415.84094 415.85322 415.84094C741.278405 927.838893 927.846568 741.29836 927.846568 511.997953M512.007675 868.171955c-196.375529 0-356.172979-159.827125-356.172979-356.174002 0-196.374506 159.797449-356.157629 356.172979-356.157629 196.34483 0 356.144326 159.783123 356.144326 356.157629C868.152001 708.34483 708.352505 868.171955 512.007675 868.171955" fill="#272536"></path>
+    <path d="M682.378947 642.227993 553.797453 513.264806 682.261267 386.229528c11.661597-11.514241 11.749602-30.332842 0.234337-41.995463-11.514241-11.676947-30.362518-11.765975-42.026162-0.222057L511.888971 471.195665 385.223107 344.130711c-11.602246-11.603269-30.393217-11.661597-42.025139-0.059352-11.603269 11.618619-11.603269 30.407544-0.059352 42.011836l126.518508 126.887922L342.137823 639.104863c-11.662621 11.543917-11.780301 30.305213-0.23536 41.96988 5.830799 5.89015 13.429871 8.833179 21.086248 8.833179 7.53972 0 15.136745-2.8847 20.910239-8.569166l127.695311-126.311801L640.293433 684.195827c5.802146 5.8001 13.428847 8.717546 21.056572 8.717546 7.599072 0 15.165398-2.917446 20.968567-8.659217C693.922864 672.681586 693.950494 653.889591 682.378947 642.227993" fill="#272536"></path>
+  </svg>
+`;
+
+// 将按钮添加到容器中
+container.appendChild(closeButton);
+
+// 将容器添加到页面中
+document.body.appendChild(container);
 closeButton.addEventListener("click", () => {
   container.style.display = "none";
 });
-
-containerMid.appendChild(closeButton);
-
 // 创建三个子元素作为三块
 const block1 = document.createElement("div");
 block1.textContent = ""; // 给子元素添加内容
@@ -44,15 +67,12 @@ containerTop.appendChild(block1);
 containerTop.appendChild(block2);
 containerTop.appendChild(block3);
 
-// 将容器添加到页面中
-document.body.appendChild(container);
-
 // 显示
 const button = document.createElement("button");
 button.classList.add("startButton");
 button.textContent = "显示";
 
-// 创建 SVG 图标
+// 创建 SVG 图标(显示按钮)
 const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 svgIcon.setAttribute("viewBox", "0 0 1024 1024");
 svgIcon.setAttribute("width", "20");
@@ -69,30 +89,100 @@ button.appendChild(svgIcon);
 // 将按钮添加到文档主体中
 document.body.appendChild(button);
 
-// 添加按钮 左
+
+
+
+
+
+
+
+// //左右版本1.0
+// // 添加按钮 左
+// const detectButton = document.createElement("button");
+// detectButton.textContent = "添加到左侧";
+// containerMid.appendChild(detectButton);
+
+
+// // 添加按钮 右
+// const detectButtonRight = document.createElement("button");
+// detectButtonRight.textContent = "添加到右侧";
+// containerMid.appendChild(detectButtonRight);
+// 创建按钮容器
+const buttonContainer = document.createElement("div");
+buttonContainer.classList.add("buttonContainer");
+container.appendChild(buttonContainer);
+
+const buttonSize = "40px"; // 按钮的宽度和高度
+
+//添加的左按钮
 const detectButton = document.createElement("button");
-detectButton.textContent = "添加到左侧";
-containerMid.appendChild(detectButton);
+detectButton.classList.add("leftAddButton");
+// detectButton.textContent = "添加到左侧";
+// 创建 SVG 图标
+const svgIcon1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svgIcon1.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
+svgIcon1.setAttribute("width", "100%"); // 设置宽度为按钮的一半
+svgIcon1.setAttribute("height", "100%"); // 设置高度为按钮的一半
 
-// 添加按钮 右
+// 创建 SVG 路径
+const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path1.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
+
+// 设置路径的样式
+path1.setAttribute("stroke", "#02D2C5"); // 设置填充颜色为黑色
+path1.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
+// 将路径添加到 SVG 图标中
+svgIcon1.appendChild(path1);
+path1.style.transform = "scale(2) translate(-25%, -23%)";
+// 将 SVG 图标添加到按钮中
+detectButton.appendChild(svgIcon1);
+buttonContainer.appendChild(detectButton);
+
+
+//右边的按钮：
 const detectButtonRight = document.createElement("button");
-detectButtonRight.textContent = "添加到右侧";
-containerMid.appendChild(detectButtonRight);
-
+detectButtonRight.classList.add("rightAddButton");
+const svgIcon2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svgIcon2.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
+svgIcon2.setAttribute("width", "100%"); // 设置宽度为按钮的一半
+svgIcon2.setAttribute("height", "100%"); // 设置高度为按钮的一半
+const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path2.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
+path2.setAttribute("stroke", "#40B1F1"); // 设置填充颜色为黑色
+path2.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
+// 将路径添加到 SVG 图标中
+svgIcon2.appendChild(path2);
+path2.style.transform = "scale(2) translate(-25%, -23%)";
+// 将 SVG 图标添加到按钮中
+detectButtonRight.appendChild(svgIcon2);
+buttonContainer.appendChild(detectButtonRight);
 
 var lastLeftValue = '';
 var lastRightValue = '';
-// 清空列表
+// 清空列表1.0
 const clearButton = document.createElement("button");
-clearButton.textContent = "清空";
-containerMid.appendChild(clearButton);
-
+clearButton.classList.add("clearButton");
+// clearButton.textContent = "clean";
+const svgIcon3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svgIcon3.setAttribute("viewBox", "0 0 1024 1024");
+svgIcon3.setAttribute("width", "20px");
+svgIcon3.setAttribute("height", "20px");
+const path3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path3.setAttribute("d", "M687.6 96.4H336.4v91.2h351.1V96.4zM636.7 398v405.5h-73.9V398h73.9z m-175.5 0v405.5h-73.9V398h73.9z m332.1-119.2H230.7l27.9 648.8h506.7l28-648.8zM696.8 5.1c40.4 0 73.3 35.6 73.9 79.8v102.7h147.8c20.2 0 36.6 17.8 37 39.9v41.2c0 5.5-4 10-9 10.1h-70.1L848 941.6c-1.8 42.9-33.7 76.6-72.6 77.3H249.8c-39 0-71.3-33.4-73.7-76l-0.1-1.3-28.5-662.7H77.7c-5 0-9.1-4.4-9.2-9.8v-40.9c0-22.2 16.2-40.2 36.3-40.5h148.4V86.2c0-44.3 32.5-80.4 72.7-81.1h370.9z");
+path3.setAttribute("fill", "#DCA0A0");
+// 将路径添加到 SVG 图标中
+svgIcon3.appendChild(path3);
+// 将 SVG 图标添加到清除按钮中
+clearButton.appendChild(svgIcon3);
 clearButton.addEventListener("click", () => {
   chrome.storage.sync.clear();
   clearTableLag();
   lastLeftValue = '';
   lastRightValue = '';
 });
+
+containerMid.appendChild(clearButton);
+
 // 当按钮被点击时，显示或隐藏容器
 button.addEventListener("click", () => {
   if (container.style.display === "none") {
