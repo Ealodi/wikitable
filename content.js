@@ -1,5 +1,13 @@
 
 // content.js
+// import * as d3 from './d3.v5.min.js';
+
+// chrome.runtime.sendMessage({action: "injectD3"});
+const script = document.createElement('script');
+// 设置 script 元素的 src 属性为 D3.js 文件的 URL
+script.src = chrome.runtime.getURL('d3.v5.min.js');
+// 将 script 元素添加到页面中
+(document.head || document.documentElement).appendChild(script);
 // 创建容器元素
 const container = document.createElement("div");
 container.classList.add("VisContainer");
@@ -200,11 +208,17 @@ button.addEventListener("click", () => {
     container.style.display = "none";
   }
 });
+var table;
+script.onload = function (){
+  table = d3.select(containerBot)
+        .append("table")
+        .attr("class","DataTable");
+}
 
-const table = document.createElement('table');
-table.classList.add("DataTable");
-//table.style.borderCollapse = 'collapse';
-containerBot.appendChild(table);
+// const table = document.createElement('table');
+// table.classList.add("DataTable");
+// //table.style.borderCollapse = 'collapse';
+// containerBot.appendChild(table);
 
 
 // 从存储中获取数据
