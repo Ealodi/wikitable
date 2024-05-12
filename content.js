@@ -208,17 +208,17 @@ button.addEventListener("click", () => {
     container.style.display = "none";
   }
 });
-var table;
-script.onload = function (){
-  table = d3.select(containerBot)
-        .append("table")
-        .attr("class","DataTable");
-}
+// var table;
+// script.onload = function (){
+//   table = d3.select(containerBot)
+//         .append("table")
+//         .attr("class","DataTable");
+// }
 
-// const table = document.createElement('table');
-// table.classList.add("DataTable");
-// //table.style.borderCollapse = 'collapse';
-// containerBot.appendChild(table);
+const table = document.createElement('table');
+table.classList.add("DataTable");
+//table.style.borderCollapse = 'collapse';
+containerBot.appendChild(table);
 
 
 // 从存储中获取数据
@@ -334,10 +334,10 @@ function writeData(infoBoxContent){
           if(index == 0 || index == 2){
             var intdata = extractNumbersFromString(cellData);
             var intdata2 = extractNumbersFromString(item[2-index]);
-            if(intdata == '')intdata = cellData;
             var widthBL;
-            if(intdata != '' && intdata2 != '')widthBL = intdata / (intdata + intdata2) * 100;
-            else widthBL = '100%';
+            //if(intdata != '' && intdata2 != '')widthBL = (intdata / (intdata + intdata2)) * 100;
+            widthBL = '100%';
+            //console.log(item[1] + '\n' + cellData + ' ' + item[2-index] + '\n' + widthBL);
             // 设置容器的圆角样式
             div.style.width = widthBL + '%';
             div.style.color = "white";
@@ -459,24 +459,28 @@ function fillPageTitle() {
     }
   }
 }
-function extractNumbersFromString(inputText) {
-  // 正则表达式匹配数字
-  const regex = /(?:^|\D)(\d+)(?![^\(]*\))(?![^\[]*\])(?![^\{]*\})(?:$|\D)/g;
-
-  // 匹配到的数字数组
-  const numbers = [];
+function extractNumbersFromString(numStr) {
+  // Get the input text value
+  var inputText = numStr;
   
-  // 在输入文本中匹配数字
-  let match;
+  // Regular expression to match numbers outside parentheses and brackets
+  var regex = /(?:^|\D)(\d+)(?![^\(]*\))(?![^\[]*\])(?![^\{]*\})(?:$|\D)/g;
+
+  // Array to store matched numbers
+  var numbers = [];
+  
+  // Match numbers in the input text
+  var match;
   while ((match = regex.exec(inputText)) !== null) {
       numbers.push(match[1]);
   }
 
-  // 如果找到数字并且不是日期、编码或两个数字，则返回找到的数字
+  // Check if numbers were found
   if (numbers.length === 1 && inputText.split(',').length <= 2) {
-      return "Numbers found: " + numbers.join(", ");
+      // Output the numbers
+      return numbers.join(", ");
   } else {
-      // 否则返回空字符串
+      // Output if no numbers were found
       return "";
   }
 }
