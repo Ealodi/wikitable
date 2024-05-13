@@ -5,7 +5,8 @@
     "permissions": [
       "activeTab",
       "scripting",
-      "storage"
+      "storage",
+      "tabs"
     ],
     "background": {
       "service_worker": "background.js",
@@ -13,14 +14,14 @@
     },
     "web_accessible_resources": [
       {
-        "resources": ["d3.v5.min.js","popup.js","content.css"],
+        "resources": ["d3.v5.min.js","popup.js","content.css","main.js"],
         "matches": ["<all_urls>"]
       }
     ],
     "content_scripts": [
       {
         "matches": ["https://en.wikipedia.org/*"],
-        "js": ["content.js","d3.v5.min.js","popup.js"],
+        "js": ["popup.js","content.js"],
         "css": ["content.css"]
       }
     ],
