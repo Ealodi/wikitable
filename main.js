@@ -193,15 +193,14 @@ button.addEventListener("click", () => {
 });
 
 
-readLeftData();
-readRightData();
+readData();
 
 
 
 // 按下添加按钮 左
 detectButton.addEventListener("click",() => {
   lastLeftValue = getLabelAnValue();
-  localStorage.setItem('leftValue', lastLeftValue);
+  localStorage.setItem('leftValue', JSON.stringify(lastLeftValue));
   
   const mergedata = mergeArrays(lastLeftValue,lastRightValue);
   console.log("mergedata:");
@@ -213,7 +212,7 @@ detectButton.addEventListener("click",() => {
 detectButtonRight.addEventListener("click",() => {
   lastRightValue = getLabelAnValue();
   //console.log(lbAnValues);
-  localStorage.setItem('rightValue', lastRightValue);
+  localStorage.setItem('rightValue', JSON.stringify(lastRightValue));
   const mergedata = mergeArrays(lastLeftValue,lastRightValue);
   console.log("mergedata:");
   console.log(mergedata);
@@ -294,10 +293,11 @@ function writeData(infoBoxContent){
     .append("tr")
     .attr("class","trl");
   // 创建单元格
+  var dl;
   const cells = rows.selectAll("td")
     .data((d, i) => {
-      return d.map((value, index) => {
-        return { value: value, index: index, rowNumber: i };
+      return d.map((value,index) => {
+        return { value: value, index: index,rowNumber: i,rowData: d };
       });
     })
     .enter()
@@ -308,23 +308,50 @@ function writeData(infoBoxContent){
     .each(function (d) {
       const cell = d3.select(this);
       if (d.index === 0 || d.index === 2) {
+        var widthBl;
+        const intvalue1 = extractNumbersFromString(d.rowData[0]);
+        const intvalue2 = extractNumbersFromString(d.rowData[2]);
+        if(intvalue1 != "" && intvalue2 != ""){
+          // 如果都是数字
+          const total = parseInt(intvalue1) + parseInt(intvalue2);
+          widthBl = (extractNumbersFromString(d.value) / total) * 100;
+        }
+        else widthBl = 100;
+        //console.log(d.value + '\n' + d.rowData[1] + extractNumbersFromString(d.value));
         // 对于第一列和第三列的单元格
+        
         const svg = cell.append("svg")
           .attr("width", "100%")
-          .attr("height", "80%")
+          .attr("height", "100%")
+          .attr("position","relative")
           .attr("viewBox", "0 0 60 20"); // 视图框，宽度60，高度20
+        // 获取svg的宽度
+        const svgWidth = parseFloat(svg.style("width"));
+        const rectWidth = svgWidth * (widthBl / 100);
         const rect = svg.append("rect")
-          .attr("width", "100%")
+          .attr("width", widthBl + '%')
           .attr("height", '100%')
+          .attr("position","relative")
+          .attr("svgwidth",svgWidth)
+          // .attr("class", function(d) {
+          //   // 当 d.index 等于 0 时，添加一个类
+          //   return d.index === 0 ? "leftRect" : "rightRect";
+          // })
+          .attr("x", function(d) {
+            return d.index === 0 ? (svgWidth - rectWidth) / 3.25 : 0;
+          })
           .attr("rx", 5) // 左上角和左下角圆角
           .attr("ry", 5) // 左上角和左下角圆角
           .attr("fill", "lightgray"); // 矩形填充颜色
         const text = svg.append("text")
-          .attr("x", 5) // 文字偏移量
-          .attr("y", 15) // 文字偏移量
+          .attr("x", function(){
+            return (d.index === 0 ? (svgWidth - rectWidth) / 3.25 : 0) + 5;
+          }) // 文字偏移量
+          .attr("y", 10) // 文字偏移量
           .attr("font-size", 6) // 文字大小
           .attr("fill", "black") // 文字颜色
           .text(d.value); // 文字内容
+
         // 截断文字并显示省略号
         const availableWidth = 60 - 10; // 10px用于文字偏移
         const textNode = text.node();
@@ -333,10 +360,13 @@ function writeData(infoBoxContent){
           const charsToShow = Math.floor(availableWidth / textWidth * d.value.length);
           text.text(d.value.substring(0, charsToShow - 3) + '...');
         }
+        text.append("title")
+          .text(function(d) { return d.value; });
       } else {
-        // 对于其他列的单元格，直接显示值
-        cell.text(d.value);
-      }
+          // 对于其他列的单元格，直接显示值
+          cell
+            .text(d.value);
+        }
     });
 
 
@@ -448,18 +478,13 @@ function extractNumbersFromString(numStr) {
       return "";
   }
 }
-function readLeftData(){
-  const value_ = localStorage.getItem('leftValues');
-  if(value_)lastLeftValue = value_;
-  const mergedata = mergeArrays(lastLeftValue,lastRightValue);
-  if(mergedata){
-    writeData(mergedata);
-    updateTitle(mergedata);
-  }
-}
-function readRightData(){
-  const value_ = localStorage.getItem('rightValues');
-  if(value_)lastRightValue = value_;
+function readData(){
+  const leftValue = JSON.parse(localStorage.getItem('leftValue'));
+  if(leftValue)lastLeftValue = leftValue;
+
+  const rightValue = JSON.parse(localStorage.getItem('rightValue'));
+  if(rightValue)lastRightValue = rightValue;
+
   const mergedata = mergeArrays(lastLeftValue,lastRightValue);
   if(mergedata){
     writeData(mergedata);

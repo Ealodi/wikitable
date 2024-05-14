@@ -74,7 +74,7 @@
     text-overflow: ellipsis;
     /* white-space: nowrap; */
 }
-.closeButton {
+/* .closeButton {
     display: flex;
     justify-content: center;
     position: absolute;
@@ -88,12 +88,12 @@
     border-right: none;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-}
+} */
 .buttonContainer {
     display: flex;
     align-items: center;
 }
-.leftAddButton {
+/* .leftAddButton {
     position: relative;
     left: 15%;
     width: 40px;
@@ -121,19 +121,170 @@
     border: none;
     left: -5%;
     cursor: pointer;
-}
-.trl {
+} */
+/* .trl {
     padding: 5px;
 }
-.valueTd {
-    width: 40%;
-    text-align: center;
-}
-.labelTd {
-    width: 20%;
-    text-align: center;
-}
+
 td {
     border: 1px solid #dddddd;
     padding: 5px;
+} */
+/* .leftRect {
+    position: relative;
+    right: 0;
 }
+.rightRect {
+    position: absolute;
+    left: 0;
+} */
+.leftAddButton {
+    position: relative;
+    left: 15%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid grey;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 当鼠标悬停在按钮上时 */
+.leftAddButton:hover {
+    transform: scale(1.1); /* 图标放大 10% */
+}
+
+.leftAddButton:active {
+    transform: translateY(2px); /* 下沉效果 */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+
+.leftAddButton:hover::after {
+    content: "Add in the left column"; /* 设置提示框内容 */
+    position: absolute; /* 绝对定位 */
+    top: 20%; /* 相对于父元素顶部偏移50% */
+    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
+    background-color: white; /* 背景颜色 */
+    padding: 5px; /* 内边距 */
+    border: 1px solid grey; /* 边框 */
+    border-radius: 5px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    display: inline-block; /* 显示在一行 */
+}
+
+
+
+.rightAddButton {
+    position: relative;
+    left: 70%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid grey;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+}
+
+.rightAddButton:hover {
+    transform: scale(1.1); /* 鼠标悬停时放大按钮 */
+}
+.rightAddButton:active {
+    transform: translateY(2px); /* 下沉效果 */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+.rightAddButton:hover::after {
+    content: "Add in the right column"; /* 设置提示框内容 */
+    position: absolute; /* 绝对定位 */
+    top: 20%; /* 相对于父元素顶部偏移50% */
+    right: calc(100% + 10px); /* 相对于父元素右边界偏移10px */
+    background-color: white; /* 背景颜色 */
+    padding: 5px; /* 内边距 */
+    border: 1px solid grey; /* 边框 */
+    border-radius: 5px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    display: inline-block; /* 显示在一行 */
+}
+
+
+
+.closeButton {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: -41px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid black;
+    border-right: none;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+}
+
+.closeButton:hover svg {
+    transform: rotate(75deg); /* 鼠标悬停时顺时针旋转SVG图标180度 */
+}
+
+
+.closeButton:hover::after {
+    content: "CLOSE"; /* 设置提示框内容 */
+    position: absolute; /* 绝对定位 */
+    top: 20%; /* 相对于父元素顶部偏移50% */
+    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
+    background-color: white; /* 背景颜色 */
+    padding: 5px; /* 内边距 */
+    border: 1px solid grey; /* 边框 */
+    border-radius: 5px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    display: inline-block; /* 显示在一行 */
+}
+
+
+
+
+.clearButton {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    left: -5%;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+}
+
+.clearButton:hover {
+    transform: scale(1.1); /* 鼠标悬停时放大按钮 */
+}
+.clearButton:active {
+    transform: translateY(2px); /* 下沉效果 */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+.clearButton:hover::after {
+    content: "CLEAN"; /* 设置提示框内容 */
+    position: absolute; /* 绝对定位 */
+    top: 20%; /* 相对于父元素顶部偏移50% */
+    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
+    background-color: white; /* 背景颜色 */
+    padding: 5px; /* 内边距 */
+    border: 1px solid grey; /* 边框 */
+    border-radius: 5px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    display: inline-block; /* 显示在一行 */
+}
+
+/* 在样式表中为表格内元素设置字体 */
+.DataTable {
+    font-family: Arial, sans-serif; /* 设置表格内元素的字体 */
+    font-size: 14px; /* 设置表格内元素的字体大小 */
+  }
+  
+  /* 如果您只想设置表格内的特定元素的字体，可以使用表格的类名或 ID */
+  .DataTable th, .DataTable td {
+    font-family: Arial, sans-serif; /* 设置表格内 th 和 td 元素的字体 */
+  }
