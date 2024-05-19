@@ -238,7 +238,7 @@ function RemakeValue(inputString) {
   const withoutComments = inputString.replace(/\/\*[\s\S]*?\*\//g, '');
   const withoutCSSRules = withoutComments.replace(/[^{]*\{[^}]+\}/g, '');
   
-  return withoutCSSRules;
+  return withoutCSSRules.replace(/\s+/g, "");;
 }
 function getLabelAnValue(){
   // 获取当前页面的所有属性值和属性名
@@ -256,20 +256,23 @@ function getLabelAnValue(){
   while(Tr){
     const th = Tr.querySelector('th');
     const td = Tr.querySelector('td');
-
-    if (th != null && td != null) {
+    var parentClassName;
+    if (th != null)parentClassName = th.parentElement.className;
+    else parentClassName = null;
+    if (parentClassName != null) {
       //console.log(th + '\n' + td);
-
       var label = RemakeValue(th.textContent);
-      const value = RemakeValue(td.textContent);
+      var value = "";
+      if(td != null)value = RemakeValue(td.textContent);
       // 如果是头元素
-      if(th.className == 'mergedtoprow')toprow = label;
-      else if (label[0] == '•' || label[1] == '•')valueLabelsBox.push([value,toprow + label]);
+      if(parentClassName == 'mergedtoprow')toprow = label;
+      else if (label[0] == '•'|| label[0] == '-')valueLabelsBox.push([value,toprow + label]);
       else valueLabelsBox.push([value,label]);
+      console.log(toprow);
     }
     Tr = Tr.nextElementSibling;
   }
-  //console.log(valueLabelsBox);
+  console.log(valueLabelsBox);
   return valueLabelsBox;
 }
 function clearTableLag(){
@@ -345,15 +348,15 @@ function writeData(infoBoxContent){
           .attr("fill", "lightgray"); // 矩形填充颜色
         const text = svg.append("text")
           .attr("x", function(){
-            return (d.index === 0 ? (svgWidth - rectWidth) / 3.25 : 0) + 5;
+            return (d.index === 0 ? (svgWidth - rectWidth) / 3.5 : 0) + 5;
           }) // 文字偏移量
           .attr("y", 10) // 文字偏移量
-          .attr("font-size", 6) // 文字大小
+          .attr("font-size", 4) // 文字大小
           .attr("fill", "black") // 文字颜色
           .text(d.value); // 文字内容
 
         // 截断文字并显示省略号
-        const availableWidth = 60 - 10; // 10px用于文字偏移
+        const availableWidth = parseFloat(rect.style("width")) - 10; // 10px用于文字偏移
         const textNode = text.node();
         const textWidth = textNode.getComputedTextLength();
         if (textWidth > availableWidth) {
@@ -365,7 +368,9 @@ function writeData(infoBoxContent){
       } else {
           // 对于其他列的单元格，直接显示值
           cell
-            .text(d.value);
+            .attr("class","labelcell")
+            .text(d.value)
+            .attr("title",function(d) { return d.value; });
         }
     });
 
