@@ -66,12 +66,14 @@
     align-items: center;
 }
 .DataTable {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 2px;
     overflow-y: auto;
-    table-layout: fixed;
     width: 100%;
     overflow-x: hidden;
     text-overflow: ellipsis;
+    table-layout: fixed;
+    /* table-layout: fixed; */
     /* white-space: nowrap; */
 }
 /* .closeButton {
@@ -93,43 +95,11 @@
     display: flex;
     align-items: center;
 }
-/* .leftAddButton {
-    position: relative;
-    left: 15%;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: white;
-    border: 3px solid grey;
-    cursor: pointer;
-}
-.rightAddButton {
-    position: relative;
-    left: 70%;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: white;
-    border: 3px solid grey;
-    cursor: pointer;
-}
-.clearButton {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: white;
-    border: none;
-    left: -5%;
-    cursor: pointer;
-} */
-/* .trl {
-    padding: 5px;
-}
-
+/* 
 td {
     border: 1px solid #dddddd;
     padding: 5px;
-} */
+} */ */
 /* .leftRect {
     position: relative;
     right: 0;
@@ -138,6 +108,20 @@ td {
     position: absolute;
     left: 0;
 } */
+.trl {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 1px; /* 去掉边框 */
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+.Tdinject {
+    padding: 0;
+    margin: 0;
+    border: none; /* 去掉边框 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    height: 100%;
+}
 .labelcell {
     white-space: nowrap; /* 防止文本换行 */
     overflow: hidden; /* 隐藏溢出文本 */

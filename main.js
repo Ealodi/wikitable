@@ -294,6 +294,7 @@ function writeData(infoBoxContent){
     .data(infoBoxContent)
     .enter()
     .append("tr")
+    // .attr("height","50px")
     .attr("class","trl");
   // 创建单元格
   var dl;
@@ -306,7 +307,7 @@ function writeData(infoBoxContent){
     .enter()
     .append("td")
     .attr("class", (d) => {
-      return d.index === 1 ? "labelTd" : "valueTd";
+      return d.index === 1 ? "labelTd Tdinject" : "valueTd Tdinject";
     })
     .each(function (d) {
       const cell = d3.select(this);
@@ -325,33 +326,34 @@ function writeData(infoBoxContent){
         
         const svg = cell.append("svg")
           .attr("width", "100%")
-          .attr("height", "100%")
-          .attr("position","relative")
-          .attr("viewBox", "0 0 60 20"); // 视图框，宽度60，高度20
+          .attr("height", 50)
+          .attr("display","block")
+          .attr("viewBox", "0 0 75 20"); // 视图框，宽度60，高度20
         // 获取svg的宽度
         const svgWidth = parseFloat(svg.style("width"));
+        //console.log("svgwidth:" + svgWidth);
         const rectWidth = svgWidth * (widthBl / 100);
+        //console.log("widthbl:" + widthBl);
         const rect = svg.append("rect")
           .attr("width", widthBl + '%')
           .attr("height", '100%')
-          .attr("position","relative")
           .attr("svgwidth",svgWidth)
           // .attr("class", function(d) {
           //   // 当 d.index 等于 0 时，添加一个类
           //   return d.index === 0 ? "leftRect" : "rightRect";
           // })
           .attr("x", function(d) {
-            return d.index === 0 ? (svgWidth - rectWidth) / 3.25 : 0;
+            return d.index === 0 ? ((svgWidth - rectWidth) / svgWidth) * 75: 0;
           })
           .attr("rx", 5) // 左上角和左下角圆角
           .attr("ry", 5) // 左上角和左下角圆角
           .attr("fill", "lightgray"); // 矩形填充颜色
         const text = svg.append("text")
           .attr("x", function(){
-            return (d.index === 0 ? (svgWidth - rectWidth) / 3.5 : 0) + 5;
+            return (d.index === 0 ? ((svgWidth - rectWidth) / svgWidth) * 75 : 0) + 5;
           }) // 文字偏移量
           .attr("y", 10) // 文字偏移量
-          .attr("font-size", 4) // 文字大小
+          .attr("font-size", 5) // 文字大小
           .attr("fill", "black") // 文字颜色
           .text(d.value); // 文字内容
 
