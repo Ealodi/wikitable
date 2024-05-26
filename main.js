@@ -275,33 +275,24 @@ function getLabelAnValue(){
   console.log(valueLabelsBox);
   return valueLabelsBox;
 }
-function clearTableLag(){
-  // 选择所有具有特定类的元素，并删除它们
-  d3.select('.DataTable').remove();
-
-  block1.textContent = "";
-  block2.textContent = "";
-}
-function writeData(infoBoxContent){
+function writeData(infoBoxContent) {
   // 将数据写入表格展示
   clearTableLag();
-  table = d3.select(containerBot)
+  const table = d3.select(containerBot)
     .append("table")
-    .attr("class","DataTable");
+    .attr("class", "DataTable");
   const tbody = table.append("tbody");
   // 创建行
   const rows = tbody.selectAll("tr")
     .data(infoBoxContent)
     .enter()
     .append("tr")
-    // .attr("height","50px")
-    .attr("class","trl");
+    .attr("class", "trl");
   // 创建单元格
-  var dl;
   const cells = rows.selectAll("td")
     .data((d, i) => {
-      return d.map((value,index) => {
-        return { value: value, index: index,rowNumber: i,rowData: d };
+      return d.map((value, index) => {
+        return { value: value, index: index, rowNumber: i, rowData: d };
       });
     })
     .enter()
@@ -312,72 +303,72 @@ function writeData(infoBoxContent){
     .each(function (d) {
       const cell = d3.select(this);
       if (d.index === 0 || d.index === 2) {
-        var widthBl;
+        let widthBl;
         const intvalue1 = extractNumbersFromString(d.rowData[0]);
         const intvalue2 = extractNumbersFromString(d.rowData[2]);
-        if(intvalue1 != "" && intvalue2 != ""){
+        if (intvalue1 !== "" && intvalue2 !== "") {
           // 如果都是数字
           const total = parseInt(intvalue1) + parseInt(intvalue2);
           widthBl = (extractNumbersFromString(d.value) / total) * 100;
+        } else {
+          widthBl = 100;
         }
-        else widthBl = 100;
-        //console.log(d.value + '\n' + d.rowData[1] + extractNumbersFromString(d.value));
-        // 对于第一列和第三列的单元格
-        
+
         const svg = cell.append("svg")
           .attr("width", "100%")
-          .attr("height", 50)
-          .attr("display","block")
-          .attr("viewBox", "0 0 75 20"); // 视图框，宽度60，高度20
+          .attr("height", 30)
+          .attr("display", "block");
+
         // 获取svg的宽度
         const svgWidth = parseFloat(svg.style("width"));
-        //console.log("svgwidth:" + svgWidth);
         const rectWidth = svgWidth * (widthBl / 100);
-        //console.log("widthbl:" + widthBl);
+        
         const rect = svg.append("rect")
           .attr("width", widthBl + '%')
           .attr("height", '100%')
-          .attr("svgwidth",svgWidth)
-          // .attr("class", function(d) {
-          //   // 当 d.index 等于 0 时，添加一个类
-          //   return d.index === 0 ? "leftRect" : "rightRect";
-          // })
-          .attr("x", function(d) {
-            return d.index === 0 ? ((svgWidth - rectWidth) / svgWidth) * 75: 0;
-          })
-          .attr("rx", 5) // 左上角和左下角圆角
-          .attr("ry", 5) // 左上角和左下角圆角
-          .attr("fill", "lightgray"); // 矩形填充颜色
+          .attr("x", d.index === 0 ? svgWidth - rectWidth : 0)
+          .attr("fill", widthBl === 100 ? "none" : (d.index === 0 ? "#02D2C5" : "#40B1F1")); // 设置透明
+        
         const text = svg.append("text")
-          .attr("x", function(){
-            return (d.index === 0 ? ((svgWidth - rectWidth) / svgWidth) * 75 : 0) + 5;
-          }) // 文字偏移量
-          .attr("y", 10) // 文字偏移量
-          .attr("font-size", 5) // 文字大小
-          .attr("fill", "black") // 文字颜色
-          .text(d.value); // 文字内容
-
+          .attr("font-size", 15) // 保持字体大小不变
+          .attr("fill", "black")
+          .text(d.value)
+          .attr("x", d.index == 0 ? svgWidth - 10 : 5)
+          .attr("y", 20)
+          .attr("text-anchor", d.index == 0 ? "end" : "start");;
+        
         // 截断文字并显示省略号
-        const availableWidth = parseFloat(rect.style("width")) - 10; // 10px用于文字偏移
+        const availableWidth = parseFloat(svgWidth) - 10; // 10px用于文字偏移
         const textNode = text.node();
         const textWidth = textNode.getComputedTextLength();
         if (textWidth > availableWidth) {
           const charsToShow = Math.floor(availableWidth / textWidth * d.value.length);
-          text.text(d.value.substring(0, charsToShow - 3) + '...');
+          const lStr = d.value.substring(0, charsToShow - 3) + '...';
+          text.text(lStr);
         }
         text.append("title")
-          .text(function(d) { return d.value; });
+          .text(d.value);
       } else {
-          // 对于其他列的单元格，直接显示值
-          cell
-            .attr("class","labelcell")
-            .text(d.value)
-            .attr("title",function(d) { return d.value; });
-        }
+        // 对于其他列的单元格，直接显示值
+        cell
+          .attr("width","30%")
+          .attr("class", "labelcell")
+          .text(d.value)
+          .attr("title", d.value);
+      }
     });
-
-
 }
+
+function clearTableLag() {
+  d3.select(containerBot).selectAll("table").remove();
+}
+
+function extractNumbersFromString(str) {
+  const match = str.match(/\d+/);
+  return match ? match[0] : "";
+}
+
+
 function updateTitle(mergedata){
   // 更新标题
   block1.textContent = mergedata[0][0];

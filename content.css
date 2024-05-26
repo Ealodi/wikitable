@@ -136,7 +136,7 @@ td {
     border-radius: 50%;
     background-color: white;
     border: 3px solid grey;
-    cursor: pointer;
+   cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
 }
 
