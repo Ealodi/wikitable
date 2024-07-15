@@ -1,16 +1,16 @@
+body {
+    width: 500px;
+    height: 600px;
+}
 .VisContainer{
     display: flex!important;
     position: fixed;
-    top: 10px;
-    right: 10px;
+    margin: 2px;
     flex-direction: column;
-    border: 1px solid #ddd;
-    /* margin: 10px; */
-    width: 40%;
+    width: 98%;
     height: 98vh;
     background-color: #ffffff;
-    z-index: 9999;
-    visibility: hidden;
+    visibility: visible;
 }
 .topContainer {
     display: flex;
@@ -26,7 +26,7 @@
     display: flex;
     align-items: center; /* 垂直居中 */
     justify-content: center; /* 水平居中 */
-    flex: 5%;
+    flex: 8%;
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 2px;
@@ -39,6 +39,13 @@
     overflow-y: auto;
     border: 1px solid #ccc;
     display: flex;
+}
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 5px;
 }
 .leftBlock {
     display: flex;
@@ -65,69 +72,7 @@
     display: flex;
     align-items: center;
 }
-.DataTable {
-    border-collapse: separate;
-    border-spacing: 0 2px;
-    overflow-y: auto;
-    width: 100%;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    table-layout: fixed;
-    /* table-layout: fixed; */
-    /* white-space: nowrap; */
-}
-/* .closeButton {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    left: -41px;
-    top: 0;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    cursor: pointer;
-    border: 1px solid black;
-    border-right: none;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-} */
-.buttonContainer {
-    display: flex;
-    align-items: center;
-}
-/* 
-td {
-    border: 1px solid #dddddd;
-    padding: 5px;
-} */ */
-/* .leftRect {
-    position: relative;
-    right: 0;
-}
-.rightRect {
-    position: absolute;
-    left: 0;
-} */
-.trl {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    border: 1px; /* 去掉边框 */
-    overflow: hidden; /* 隐藏溢出内容 */
-}
-.Tdinject {
-    padding: 0;
-    margin: 0;
-    border: none; /* 去掉边框 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    height: 100%;
-}
-.labelcell {
-    white-space: nowrap; /* 防止文本换行 */
-    overflow: hidden; /* 隐藏溢出文本 */
-    text-overflow: ellipsis; /* 溢出文本显示省略号 */
-    position: relative; /* 确保工具提示正确显示 */
-}
+
 .leftAddButton {
     position: relative;
     left: 15%;
@@ -136,7 +81,7 @@ td {
     border-radius: 50%;
     background-color: white;
     border: 3px solid grey;
-   cursor: pointer;
+    cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
 }
 
@@ -199,44 +144,6 @@ td {
 
 
 
-.closeButton {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    left: -41px;
-    top: 0;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    cursor: pointer;
-    border: 1px solid black;
-    border-right: none;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    transition: transform 0.3s ease; /* 添加过渡效果 */
-}
-
-.closeButton:hover svg {
-    transform: rotate(75deg); /* 鼠标悬停时顺时针旋转SVG图标180度 */
-}
-
-
-.closeButton:hover::after {
-    content: "CLOSE"; /* 设置提示框内容 */
-    position: absolute; /* 绝对定位 */
-    top: 20%; /* 相对于父元素顶部偏移50% */
-    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
-    background-color: white; /* 背景颜色 */
-    padding: 5px; /* 内边距 */
-    border: 1px solid grey; /* 边框 */
-    border-radius: 5px; /* 边框圆角 */
-    white-space: nowrap; /* 防止换行 */
-    display: inline-block; /* 显示在一行 */
-}
-
-
-
-
 .clearButton {
     width: 20px;
     height: 20px;
@@ -272,9 +179,36 @@ td {
 .DataTable {
     font-family: Arial, sans-serif; /* 设置表格内元素的字体 */
     font-size: 14px; /* 设置表格内元素的字体大小 */
-  }
-  
-  /* 如果您只想设置表格内的特定元素的字体，可以使用表格的类名或 ID */
-  .DataTable th, .DataTable td {
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    overflow-y: auto;
+}
+
+table td {
+    padding: 0;
+    margin: 0;
+    border: none; /* 去掉边框 */
+    overflow: hidden; /* 隐藏溢出内容 */
     font-family: Arial, sans-serif; /* 设置表格内 th 和 td 元素的字体 */
-  }
+}
+.trl {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 1px; /* 去掉边框 */
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+.Tdinject {
+    height: 30px;
+}
+.labelcell {
+    height: 30px;
+    white-space: nowrap; /* 防止文本换行 */
+    text-overflow: ellipsis; /* 溢出文本显示省略号 */
+    position: relative; /* 确保工具提示正确显示 */
+}

@@ -8,21 +8,16 @@
       "storage",
       "tabs"
     ],
-    "background": {
-      "service_worker": "background.js",
-      "type": "module"
-    },
     "web_accessible_resources": [
       {
-        "resources": ["d3.v5.min.js","popup.js","content.css","main.js"],
+        "resources": ["d3.v5.min.js","popup.js","content.css"],
         "matches": ["<all_urls>"]
       }
     ],
     "content_scripts": [
       {
         "matches": ["https://en.wikipedia.org/*"],
-        "js": ["popup.js","content.js"],
-        "css": ["content.css"]
+        "js": ["content.js"]
       }
     ],
     "action": {
