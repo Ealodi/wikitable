@@ -26,22 +26,24 @@ function getLabelAnValue(){
     const th = Tr.querySelector('th');
     const td = Tr.querySelector('td');
     var parentClassName;
-    if (th != null)parentClassName = th.parentElement.className;
-    else parentClassName = null;
-    if (parentClassName != null) {
+
+    if (th != null) {
+      parentClassName = th.parentElement.className;
       //console.log(th + '\n' + td);
       var label = RemakeValue(th.textContent);
       var value = "";
       if(td != null)value = RemakeValue(td.textContent);
       // 如果是头元素
-      if(parentClassName == 'mergedtoprow')toprow = label;
-      else if (label[0] == '•'|| label[0] == '-')valueLabelsBox.push([value,toprow + label]);
+      if(parentClassName == 'mergedtoprow'){
+        toprow = label;
+        valueLabelsBox.push([value,'*' + label]);
+      }
+      else if (label[0] == '•'|| label[0] == '-')valueLabelsBox.push([value,label]);
       else valueLabelsBox.push([value,label]);
-      console.log(toprow);
+      //console.log(toprow);
     }
     Tr = Tr.nextElementSibling;
   }
-  console.log(valueLabelsBox);
   return valueLabelsBox;
 }
 function RemakeValue(inputString) {
@@ -50,5 +52,5 @@ function RemakeValue(inputString) {
   const withoutComments = inputString.replace(/\/\*[\s\S]*?\*\//g, '');
   const withoutCSSRules = withoutComments.replace(/[^{]*\{[^}]+\}/g, '');
   
-  return withoutCSSRules.replace(/\s+/g, "");;
+  return withoutCSSRules.replace(/\s+/g, "").replace(/\[[^\]]*\]/g, '');
 }

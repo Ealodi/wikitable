@@ -20,127 +20,26 @@ var detectButton;
 var buttonContainer;
 
 // 创建容器元素
-container = document.createElement("div");
-container.classList.add("VisContainer");
+container = d3.select(".VisContainer");
+containerTop = d3.select(".topContainer");
+containerMid = d3.select(".midContainer");
+containerBot = d3.select(".botContainer");
+buttonContainer = d3.select(".buttonContainer");
 
-containerTop = document.createElement("div");
-containerTop.classList.add("topContainer");
-
-containerMid = document.createElement("div");
-containerMid.classList.add("midContainer");
-
-containerBot = document.createElement("div");
-containerBot.classList.add("botContainer");
-
-// table = document.createElement('table');
-// table.classList.add("DataTable");
-// //table.style.borderCollapse = 'collapse';
-// containerBot.appendChild(table);
-
-container.appendChild(containerTop);
-container.appendChild(containerMid);
-container.appendChild(containerBot);
-
-
-// 将容器添加到页面中
-document.body.appendChild(container);
-
-// 创建三个子元素作为三块
-block1 = document.createElement("div");
-block1.textContent = ""; // 给子元素添加内容
-block1.classList.add("leftBlock");
-block1.style.flex = "1"; // 子元素自动填充剩余空button
-
-block2 = document.createElement("div");
-block2.textContent = ""; // 给子元素添加内容
-block2.style.flex = "1"; // 子元素自动填充剩余空间
-
-block3 = document.createElement("div");
-block3.classList.add("rightBlock");
-block3.textContent = ""; // 给子元素添加内容
-block3.style.flex = "1"; // 子元素自动填充剩余空间
-
-// 将三个子元素添加到 header 元素中
-containerTop.appendChild(block1);
-containerTop.appendChild(block2);
-containerTop.appendChild(block3);
-
-// 创建按钮容器
-buttonContainer = document.createElement("div");
-buttonContainer.classList.add("buttonContainer");
-container.appendChild(buttonContainer);
-
-//添加的左按钮
-detectButton = document.createElement("button");
-detectButton.classList.add("leftAddButton");
-// detectButton.textContent = "添加到左侧";
-// 创建 SVG 图标
-const svgIcon1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svgIcon1.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
-svgIcon1.setAttribute("width", "100%"); // 设置宽度为按钮的一半
-svgIcon1.setAttribute("height", "100%"); // 设置高度为按钮的一半
-
-// 创建 SVG 路径
-const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path1.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
-
-// 设置路径的样式
-path1.setAttribute("stroke", "#02D2C5"); // 设置填充颜色为黑色
-path1.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
-// 将路径添加到 SVG 图标中
-svgIcon1.appendChild(path1);
-path1.style.transform = "scale(2) translate(-25%, -23%)";
-// 将 SVG 图标添加到按钮中
-detectButton.appendChild(svgIcon1);
-buttonContainer.appendChild(detectButton);
-
-
-//右边的按钮：
-detectButtonRight = document.createElement("button");
-detectButtonRight.classList.add("rightAddButton");
-const svgIcon2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svgIcon2.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
-svgIcon2.setAttribute("width", "100%"); // 设置宽度为按钮的一半
-svgIcon2.setAttribute("height", "100%"); // 设置高度为按钮的一半
-const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path2.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
-path2.setAttribute("stroke", "#40B1F1"); // 设置填充颜色为黑色
-path2.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
-// 将路径添加到 SVG 图标中
-svgIcon2.appendChild(path2);
-path2.style.transform = "scale(2) translate(-25%, -23%)";
-// 将 SVG 图标添加到按钮中
-detectButtonRight.appendChild(svgIcon2);
-buttonContainer.appendChild(detectButtonRight);
-
-lastLeftValue = '';
-lastLeftValue = '';
-// 清空列表1.0
-clearButton = document.createElement("button");
-clearButton.classList.add("clearButton");
-// clearButton.textContent = "clean";
-const svgIcon3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svgIcon3.setAttribute("viewBox", "0 0 1024 1024");
-svgIcon3.setAttribute("width", "20px");
-svgIcon3.setAttribute("height", "20px");
-const path3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path3.setAttribute("d", "M687.6 96.4H336.4v91.2h351.1V96.4zM636.7 398v405.5h-73.9V398h73.9z m-175.5 0v405.5h-73.9V398h73.9z m332.1-119.2H230.7l27.9 648.8h506.7l28-648.8zM696.8 5.1c40.4 0 73.3 35.6 73.9 79.8v102.7h147.8c20.2 0 36.6 17.8 37 39.9v41.2c0 5.5-4 10-9 10.1h-70.1L848 941.6c-1.8 42.9-33.7 76.6-72.6 77.3H249.8c-39 0-71.3-33.4-73.7-76l-0.1-1.3-28.5-662.7H77.7c-5 0-9.1-4.4-9.2-9.8v-40.9c0-22.2 16.2-40.2 36.3-40.5h148.4V86.2c0-44.3 32.5-80.4 72.7-81.1h370.9z");
-path3.setAttribute("fill", "#DCA0A0");
-// 将路径添加到 SVG 图标中
-svgIcon3.appendChild(path3);
-// 将 SVG 图标添加到清除按钮中
-clearButton.appendChild(svgIcon3);
-clearButton.addEventListener("click", () => {
-  localStorage.clear();
-  clearTableLag();
-  lastLeftValue = '';
-  lastRightValue = '';
-  block1.textContent = "";
-  block3.textContent = "";
-});
-
-containerMid.appendChild(clearButton);
-
+block1 = containerTop.append("div")
+    .text("")
+    .classed("leftBlock", true)
+    .style("flex", "1");
+block2 = containerTop.append("div")
+    .text("")
+    .style("flex", "1");
+block3 = containerTop.append("div")
+    .classed("rightBlock", true)
+    .text("")
+    .style("flex", "1");
+addLeftAddButton();
+addClearButton();
+addRightAddButton();
 
 readData();
 
@@ -189,12 +88,12 @@ function RemakeValue(inputString) {
   const withoutComments = inputString.replace(/\/\*[\s\S]*?\*\//g, '');
   const withoutCSSRules = withoutComments.replace(/[^{]*\{[^}]+\}/g, '');
   
-  return withoutCSSRules.replace(/\s+/g, "");;
+  return withoutCSSRules.replace(/\s+/g, "").replace(/\[.*?\]/g, '');
 }
 function writeData(infoBoxContent) {
   // 将数据写入表格展示
   clearTableLag();
-  const table = d3.select(containerBot)
+  const table = containerBot
     .append("table")
     .attr("class", "DataTable");
   const tbody = table.append("tbody");
@@ -214,7 +113,7 @@ function writeData(infoBoxContent) {
     .enter()
     .append("td")
     .attr("class", (d) => {
-      return d.index === 1 ? "labelTd Tdinject" : "valueTd Tdinject";
+      return d.index === 1 ? "labelTd Tdinject" : d.index == 0 ? "valueTd leftTd" : "valueTd rightTd";
     })
     .each(async function (d) {
       const cell = d3.select(this);
@@ -270,7 +169,7 @@ function writeData(infoBoxContent) {
         // 对于其他列的单元格，直接显示值
         cell
           .attr("width","30%")
-          .attr("class", "labelcell")
+          .attr("class", d.value[0] == '*' ? "mainTag labelcell" : "labelcell")
           .text(d.value)
           .attr("title", d.value);
       }
@@ -278,12 +177,12 @@ function writeData(infoBoxContent) {
   deleteNoNumberRow();
 }
 function clearTableLag() {
-  d3.select(containerBot).selectAll("table").remove();
+  containerBot.selectAll("table").remove();
 }
 function updateTitle(mergedata){
   // 更新标题
-  block1.textContent = mergedata[0][0];
-  block3.textContent = mergedata[0][2];
+  block1.text(mergedata[0][0]);
+  block3.text(mergedata[0][2]);
 }
 function mergeArrays(array1, array2) {
   // 创建一个映射表，将第二个数组的名称映射到其对应的值
@@ -301,21 +200,30 @@ function mergeArrays(array1, array2) {
     return mergedArray;
   } 
   const mergedArray = [];
+  var array1_top = null;
   // 遍历第一个数组，合并数据
   array1.forEach(([value, name]) => {
     // 如果值不为null
     if(value != null && name != null){
+      if (name[0] == "*")array1_top = name;
+      var array2_top = null;
       for(var i = 0;i < array2.length;i++){
-        //console.log(array2[i][1] + '\n' + name + '\n' + getSimilarity(name,array2[i][1]));
-        if(getSimilarity(name,array2[i][1]) >= 80 && !mergedArray.some(subArray => subArray[1] === name)){
-          //array2.splice(i,1);
-          mergedArray.push([value, name, array2[i][0]]);
+        if(array2[i][1][0] == "*")array2_top = array2[i][1];
+        if(name == array2[i][1] && !mergedArray.some(subArray => subArray[1] === name)){
+          // 如果1 和 2 中的项名称相同 并且新数组中没用出现过这个名称
+          if (name[0] == '•' || name[0] == '-'){
+            // 如果是子类
+            if(array1_top == array2_top && array1_top != null)
+              mergedArray.push([value,name,array2[i][0]]);
+          }else {
+            //if (name[0] == '*')mergedArray.push(['','','']);
+            mergedArray.push([value,name,array2[i][0]]);
+          }
         }
-        
       }
     }
   });
-  //console.log(mergedArray);
+  console.log(mergedArray);
   return mergedArray;
 }
 // 字符串相似度比较
@@ -386,15 +294,117 @@ function deleteNoNumberRow(){
       const tr = d3.select(this);
       // 选取第一个 td 元素的 rect
       const firstRect = tr.select('td:nth-child(1) svg rect').attr('fill');
+      const second = tr.select('td:nth-child(2)');
       // 选取第三个 td 元素的 rect
       const thirdRect = tr.select('td:nth-child(3) svg rect').attr('fill');
-      
-      if (firstRect === 'none'  && thirdRect === 'none') {
+      //console.log(second);
+      // if (second.text()[0] == '*' && firstRect !== 'none' && thirdRect !== 'none'){
+      //   second.style("border",'1px solid black');
+      // }
+      if (firstRect === 'none'  && thirdRect === 'none' && second.text()[0] != '*' && second.text() != '') {
         // 选择表格元素
         var table = d3.select(".DataTable");
         table.style("height", parseInt(table.style("height"), 10) - 30 + "px");
 
         tr.remove();  // 删除 tr 元素
       }
+
+      if(second.text()[0] == '*'){
+        // 去除*
+
+        // 获取目标元素的前一个兄弟元素
+        var previousElement = second.node().previousElementSibling;
+        if (previousElement) 
+            d3.select(previousElement).node().classList.add("parentValueTd");
+        // 获取目标元素的后一个兄弟元素
+        var nextElement = second.node().nextElementSibling;
+        if (nextElement)
+            d3.select(nextElement).node().classList.add("parentValueTd");
+        second.text(second.text().substring(1));
+      }else if (second.text()[0] == '•' || second.text()[0] == '-'){
+        // 将• 固定到最左边
+        var firstChar = second.text()[0];
+        second.html('<span class="fixed-left">' + firstChar + '</span>' + second.text().substring(1));
+      }
   });
+  const rowCount = d3.selectAll("tr.trl").size();
+  const tableHeight = rowCount * 30;
+  console.log(tableHeight);
+  if (tableHeight > 380)
+    d3.select("body").style("height",120 + tableHeight + 'px');
+  else d3.select("body").style("height",500 - (380 - tableHeight) + 'px');
+
+  d3.select(".botContainer").style("height",tableHeight + 'px');
+  // d3.select("tbody").style("height",tableHeight + 'px');
+  d3.select(".DataTable").style("height",tableHeight + 'px');
+}
+function addClearButton(){
+  // 清空列表1.0
+  clearButton = document.createElement("button");
+  clearButton.classList.add("clearButton");
+  // clearButton.textContent = "clean";
+  const svgIcon3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgIcon3.setAttribute("viewBox", "0 0 1024 1024");
+  svgIcon3.setAttribute("width", "20px");
+  svgIcon3.setAttribute("height", "20px");
+  const path3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path3.setAttribute("d", "M687.6 96.4H336.4v91.2h351.1V96.4zM636.7 398v405.5h-73.9V398h73.9z m-175.5 0v405.5h-73.9V398h73.9z m332.1-119.2H230.7l27.9 648.8h506.7l28-648.8zM696.8 5.1c40.4 0 73.3 35.6 73.9 79.8v102.7h147.8c20.2 0 36.6 17.8 37 39.9v41.2c0 5.5-4 10-9 10.1h-70.1L848 941.6c-1.8 42.9-33.7 76.6-72.6 77.3H249.8c-39 0-71.3-33.4-73.7-76l-0.1-1.3-28.5-662.7H77.7c-5 0-9.1-4.4-9.2-9.8v-40.9c0-22.2 16.2-40.2 36.3-40.5h148.4V86.2c0-44.3 32.5-80.4 72.7-81.1h370.9z");
+  path3.setAttribute("fill", "#DCA0A0");
+  // 将路径添加到 SVG 图标中
+  svgIcon3.appendChild(path3);
+  // 将 SVG 图标添加到清除按钮中
+  clearButton.appendChild(svgIcon3);
+  clearButton.addEventListener("click", () => {
+    localStorage.clear();
+    clearTableLag();
+    lastLeftValue = '';
+    lastRightValue = '';
+    block1.textContent = "";
+    block3.textContent = "";
+  });
+  buttonContainer.node().appendChild(clearButton);
+}
+function addLeftAddButton(){
+  //添加的左按钮
+  detectButton = document.createElement("button");
+  detectButton.classList.add("leftAddButton");
+  // detectButton.textContent = "添加到左侧";
+  // 创建 SVG 图标
+  const svgIcon1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgIcon1.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
+  svgIcon1.setAttribute("width", "100%"); // 设置宽度为按钮的一半
+  svgIcon1.setAttribute("height", "100%"); // 设置高度为按钮的一半
+
+  // 创建 SVG 路径
+  const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path1.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
+
+  // 设置路径的样式
+  path1.setAttribute("stroke", "#02D2C5"); // 设置填充颜色为黑色
+  path1.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
+  // 将路径添加到 SVG 图标中
+  svgIcon1.appendChild(path1);
+  path1.style.transform = "scale(2) translate(-25%, -23%)";
+  // 将 SVG 图标添加到按钮中
+  detectButton.appendChild(svgIcon1);
+  buttonContainer.node().appendChild(detectButton);
+}
+function addRightAddButton(){
+  //右边的按钮：
+  detectButtonRight = document.createElement("button");
+  detectButtonRight.classList.add("rightAddButton");
+  const svgIcon2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgIcon2.setAttribute("viewBox", "0 0 24 24"); // 设置视图框
+  svgIcon2.setAttribute("width", "100%"); // 设置宽度为按钮的一半
+  svgIcon2.setAttribute("height", "100%"); // 设置高度为按钮的一半
+  const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path2.setAttribute("d", "M7 11h10m-5-5v10"); // 设置路径为加号
+  path2.setAttribute("stroke", "#40B1F1"); // 设置填充颜色为黑色
+  path2.setAttribute("stroke-width", "2"); // 设置路径线条的宽度
+  // 将路径添加到 SVG 图标中
+  svgIcon2.appendChild(path2);
+  path2.style.transform = "scale(2) translate(-25%, -23%)";
+  // 将 SVG 图标添加到按钮中
+  detectButtonRight.appendChild(svgIcon2);
+  buttonContainer.node().appendChild(detectButtonRight);
 }

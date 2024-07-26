@@ -1,47 +1,42 @@
 body {
     width: 500px;
-    height: 600px;
+    height: 500px;
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
 }
 .VisContainer{
     display: flex!important;
     position: fixed;
     margin: 2px;
     flex-direction: column;
-    width: 98%;
-    height: 98vh;
+    width: 100%;
+    height: 100%;
     background-color: #ffffff;
+    overflow-y: hidden;
     visibility: visible;
 }
 .topContainer {
     display: flex;
-    flex: 10%;
+    height: 50px;
     flex-direction: row;
     justify-content: space-between;
     border-left: 10px solid transparent;
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-bottom: 2px;
-}
-.midContainer {
-    display: flex;
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中 */
-    flex: 8%;
-    margin-left: 8px;
-    margin-right: 8px;
     margin-bottom: 2px;
 }
 .botContainer {
-    flex: 60%;
+    display: block;
+    min-height: 380px;
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 10px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    display: flex;
+    overflow: hidden;
+    /* border: 1px solid #ccc; */
 }
 .buttonContainer {
+    height: 50px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-left: 8px;
     margin-right: 8px;
@@ -52,7 +47,7 @@ body {
     align-items: center; /* 垂直居中 */
     justify-content: center; /* 水平居中 */
     color: #02D2C5;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
     text-align: center;
 }
@@ -61,21 +56,15 @@ body {
     align-items: center; /* 垂直居中 */
     justify-content: center; /* 水平居中 */
     color: #40B1F1;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
     text-align: center;
-}
-.startButton {
-    position: fixed;
-    bottom: 50px;
-    right: 10px;
-    display: flex;
-    align-items: center;
+    margin-right: 30px;
 }
 
 .leftAddButton {
     position: relative;
-    left: 15%;
+    margin-left: 10%;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -83,18 +72,38 @@ body {
     border: 3px solid grey;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+    justify-content: center;
 }
-
+.clearButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+    justify-content: center;
+}
+.rightAddButton {
+    position: relative;
+    margin-right: 14%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid grey;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+    justify-content: center;
+}
 /* 当鼠标悬停在按钮上时 */
 .leftAddButton:hover {
     transform: scale(1.1); /* 图标放大 10% */
 }
-
 .leftAddButton:active {
     transform: translateY(2px); /* 下沉效果 */
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
 }
-
 .leftAddButton:hover::after {
     content: "Add in the left column"; /* 设置提示框内容 */
     position: absolute; /* 绝对定位 */
@@ -107,21 +116,25 @@ body {
     white-space: nowrap; /* 防止换行 */
     display: inline-block; /* 显示在一行 */
 }
-
-
-
-.rightAddButton {
-    position: relative;
-    left: 70%;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: white;
-    border: 3px solid grey;
-    cursor: pointer;
-    transition: transform 0.3s ease; /* 添加过渡效果 */
+.clearButton:hover {
+    transform: scale(1.1); /* 鼠标悬停时放大按钮 */
 }
-
+.clearButton:active {
+    transform: translateY(2px); /* 下沉效果 */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+.clearButton:hover::after {
+    content: "CLEAN"; /* 设置提示框内容 */
+    position: absolute; /* 绝对定位 */
+    top: 20%; /* 相对于父元素顶部偏移50% */
+    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
+    background-color: white; /* 背景颜色 */
+    padding: 5px; /* 内边距 */
+    border: 1px solid grey; /* 边框 */
+    border-radius: 5px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    display: inline-block; /* 显示在一行 */
+}
 .rightAddButton:hover {
     transform: scale(1.1); /* 鼠标悬停时放大按钮 */
 }
@@ -143,40 +156,9 @@ body {
 }
 
 
-
-.clearButton {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: white;
-    border: none;
-    left: -5%;
-    cursor: pointer;
-    transition: transform 0.3s ease; /* 添加过渡效果 */
-}
-
-.clearButton:hover {
-    transform: scale(1.1); /* 鼠标悬停时放大按钮 */
-}
-.clearButton:active {
-    transform: translateY(2px); /* 下沉效果 */
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-}
-.clearButton:hover::after {
-    content: "CLEAN"; /* 设置提示框内容 */
-    position: absolute; /* 绝对定位 */
-    top: 20%; /* 相对于父元素顶部偏移50% */
-    left: calc(100% + 10px); /* 相对于父元素左边界偏移10px */
-    background-color: white; /* 背景颜色 */
-    padding: 5px; /* 内边距 */
-    border: 1px solid grey; /* 边框 */
-    border-radius: 5px; /* 边框圆角 */
-    white-space: nowrap; /* 防止换行 */
-    display: inline-block; /* 显示在一行 */
-}
-
 /* 在样式表中为表格内元素设置字体 */
 .DataTable {
+    display: block;
     font-family: Arial, sans-serif; /* 设置表格内元素的字体 */
     font-size: 14px; /* 设置表格内元素的字体大小 */
     table-layout: fixed;
@@ -184,15 +166,16 @@ body {
     border-collapse: collapse;
     height: 100%;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
-    overflow-y: auto;
 }
-
+tbody {
+    display: block;
+    height: 100%;
+}
 table td {
     padding: 0;
     margin: 0;
-    border: none; /* 去掉边框 */
     overflow: hidden; /* 隐藏溢出内容 */
     font-family: Arial, sans-serif; /* 设置表格内 th 和 td 元素的字体 */
 }
@@ -200,15 +183,38 @@ table td {
     position: relative;
     padding: 0;
     margin: 0;
-    border: 1px; /* 去掉边框 */
+    border: 0; 
     overflow: hidden; /* 隐藏溢出内容 */
 }
-.Tdinject {
+/* .leftTd {
+    border-right: 0;
+}
+.rightTd { 
+    border-left: 0;
+} */
+.valueTd {
     height: 30px;
+    border: 0;
 }
 .labelcell {
     height: 30px;
+    text-align: center;
     white-space: nowrap; /* 防止文本换行 */
     text-overflow: ellipsis; /* 溢出文本显示省略号 */
     position: relative; /* 确保工具提示正确显示 */
+}
+.mainTag {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;;
+    font-size: 15px;
+    font-weight: bold;
+}
+.parentValueTd {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.fixed-left {
+    position: absolute;
+    left: 8px;
+    font-weight: bold;
 }
