@@ -21,23 +21,21 @@ body {
     height: 50px;
     flex-direction: row;
     justify-content: space-between;
-    border-left: 10px solid transparent;
-    margin-bottom: 2px;
+    border-bottom: 2px solid black;
 }
 .botContainer {
     display: block;
-    min-height: 380px;
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 10px;
     overflow: hidden;
-    /* border: 1px solid #ccc; */
 }
 .buttonContainer {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 2px solid black;
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 5px;
@@ -64,9 +62,9 @@ body {
 
 .leftAddButton {
     position: relative;
-    margin-left: 10%;
-    width: 40px;
-    height: 40px;
+    margin-left: 14%;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: white;
     border: 3px solid grey;
@@ -87,8 +85,8 @@ body {
 .rightAddButton {
     position: relative;
     margin-right: 14%;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: white;
     border: 3px solid grey;

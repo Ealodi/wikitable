@@ -53,7 +53,6 @@ detectButton.addEventListener("click",() => {
     console.log("mergedata:");
     console.log(mergedata);
     writeData(mergedata);
-    updateTitle(mergedata);
   });
 
 });
@@ -66,7 +65,6 @@ detectButtonRight.addEventListener("click",() => {
     console.log("mergedata:");
     console.log(mergedata);
     writeData(mergedata);
-    updateTitle(mergedata);
   });
   //console.log(lbAnValues);
 
@@ -174,6 +172,7 @@ function writeData(infoBoxContent) {
           .attr("title", d.value);
       }
     });
+  updateTitle(infoBoxContent);
   deleteNoNumberRow();
 }
 function clearTableLag() {
@@ -216,7 +215,7 @@ function mergeArrays(array1, array2) {
             if(array1_top == array2_top && array1_top != null)
               mergedArray.push([value,name,array2[i][0]]);
           }else {
-            //if (name[0] == '*')mergedArray.push(['','','']);
+            //if (name[0] = '*')mergedArray.push(['','','']);
             mergedArray.push([value,name,array2[i][0]]);
           }
         }
@@ -286,11 +285,14 @@ function readData(){
   const mergedata = mergeArrays(lastLeftValue,lastRightValue);
   if(mergedata){
     writeData(mergedata);
-    updateTitle(mergedata);
   }
 }
 function deleteNoNumberRow(){
+  if (block1.text() != "" && block3.text() != ""){
+    // 如果已经开始对比了
+    console.log("start deleteNum");
     d3.selectAll('tr.trl').each(function() {
+
       const tr = d3.select(this);
       // 选取第一个 td 元素的 rect
       const firstRect = tr.select('td:nth-child(1) svg rect').attr('fill');
@@ -310,7 +312,7 @@ function deleteNoNumberRow(){
       }
 
       if(second.text()[0] == '*'){
-        // 去除*
+        // 去除 *
 
         // 获取目标元素的前一个兄弟元素
         var previousElement = second.node().previousElementSibling;
@@ -326,7 +328,8 @@ function deleteNoNumberRow(){
         var firstChar = second.text()[0];
         second.html('<span class="fixed-left">' + firstChar + '</span>' + second.text().substring(1));
       }
-  });
+    });
+  }
   const rowCount = d3.selectAll("tr.trl").size();
   const tableHeight = rowCount * 30;
   console.log(tableHeight);
@@ -335,7 +338,6 @@ function deleteNoNumberRow(){
   else d3.select("body").style("height",500 - (380 - tableHeight) + 'px');
 
   d3.select(".botContainer").style("height",tableHeight + 'px');
-  // d3.select("tbody").style("height",tableHeight + 'px');
   d3.select(".DataTable").style("height",tableHeight + 'px');
 }
 function addClearButton(){
