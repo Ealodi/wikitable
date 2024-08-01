@@ -1,5 +1,3 @@
-
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === "getLabelAndValue") {
       // 发送页面的 HTML 内容给 popup.js
