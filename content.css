@@ -1,0 +1,126 @@
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.div0 {
+    position: absolute;
+    height: 100vh;
+}
+#div1 {
+    left: 0;
+    width: 30%;
+}
+#div2 {
+    width: 40%;
+}
+#div3 {
+    width: 30%;
+    right: 0;
+}
+.VisContainer{
+    display: flex!important;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    visibility: visible;
+}
+.topContainer {
+    display: flex;
+    height: 10%;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+}
+.botContainer {
+    height: 90%;
+    margin-left: 8px;
+    margin-right: 8px;
+    overflow-y: auto;
+}
+
+.leftBlock {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    color: #02D2C5;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+.rightBlock {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    color: #40B1F1;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 30px;
+}
+
+/* 在样式表中为表格内元素设置字体 */
+.DataTable {
+    font-family: Arial, sans-serif; /* 设置表格内元素的字体 */
+    font-size: 14px; /* 设置表格内元素的字体大小 */
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+    height: 100%;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+tbody {
+    height: 100%;
+}
+table td {
+    padding: 0;
+    margin: 0;
+    overflow: hidden; /* 隐藏溢出内容 */
+    font-family: Arial, sans-serif; /* 设置表格内 th 和 td 元素的字体 */
+}
+.trl {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 0; 
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+/* .leftTd {
+    border-right: 0;
+}
+.rightTd { 
+    border-left: 0;
+} */
+.valueTd {
+    height: 30px;
+    border: 0;
+}
+.labelcell {
+    height: 30px;
+    text-align: center;
+    white-space: nowrap; /* 防止文本换行 */
+    text-overflow: ellipsis; /* 溢出文本显示省略号 */
+    position: relative; /* 确保工具提示正确显示 */
+    max-width: 100px;
+}
+.mainTag {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;;
+    font-size: 15px;
+    font-weight: bold;
+}
+.parentValueTd {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.fixed-left {
+    position: absolute;
+    left: 8px;
+    font-weight: bold;
+}
+.leftBlock {
+    margin-left: 30px;
+}
